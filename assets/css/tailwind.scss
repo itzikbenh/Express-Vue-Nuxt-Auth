@@ -1,0 +1,294 @@
+/**
+ * This injects Tailwind's base styles, which is a combination of
+ * Normalize.css and some additional base styles.
+ *
+ * You can see the styles here:
+ * https://github.com/tailwindcss/tailwindcss/blob/master/css/preflight.css
+ *
+ * If using `postcss-import`, use this import instead:
+ *
+ * @import "tailwindcss/preflight";
+ */
+@tailwind preflight;
+
+
+
+@-webkit-keyframes spinAround {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes spinAround {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+.table {
+    @apply .w-full;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    th {
+        @apply .text-left;
+    }
+    td, th {
+        @apply .border .border-solid .border-grey-light .py-2 .px-3 .align-top;
+    }
+
+    &.is-bordered {
+        tr:last-child td, tr:last-child th {
+            @apply .border-b;
+        }
+        td, th {
+            @apply .border;
+        }
+    }
+}
+
+
+
+.input, .select-input select {
+    @apply .bg-white .shadow .rounded .w-full .border .appearance-none .py-2 .px-2 .text-black .resize-none;
+    &:focus:not(.has-error) {
+        @apply .border-blue;
+    }
+    &.has-error {
+        @apply .mb-2;
+    }
+    &.has-error, &.has-error:focus {
+        @apply .border-red;
+    }
+    outline: none;
+}
+
+.form-item {
+    @apply .mb-4;
+    &.has-error {
+        @apply .mb-2;
+        .input {
+            @apply .mb-2;
+        }
+        .input, .input:focus {
+            @apply .border-red;
+        }
+    }
+    .label {
+        @apply .block .text-grey-darker .text-sm .font-bold .mb-2;
+    }
+    p {
+        margin-top: 0;
+    }
+}
+
+
+.button {
+    @apply .relative .font-bold .py-2 .px-4 .rounded .shadow .border .whitespace-no-wrap .inline-block .text-center .align-middle .cursor-pointer .font-semibold;
+
+    &.button-small {
+        @apply .text-xs;
+    }
+
+    &.button-tiny {
+        @apply .py-1 .px-2;
+        font-size: .75rem;
+    }
+
+    &.button-white {
+        @apply .bg-white .text-black .border-grey-light;
+
+        &:hover {
+            @apply .bg-grey-lightest;
+        }
+        &:focus {
+            box-shadow: 0 0 8px config('colors.grey');
+        }
+    }
+    &.button-primary {
+        @apply .bg-blue .text-white .border-blue-light;
+
+        &:hover {
+            @apply .bg-blue-dark;
+        }
+
+        &:focus, &:active {
+            box-shadow: 0 0 8px config('colors.blue');
+        }
+    }
+    &.button-red {
+        @apply .bg-red .text-white .border-red-light;
+
+        &:hover {
+            @apply .bg-red-dark;
+        }
+        &:focus, &:active {
+            box-shadow: 0 0 8px config('colors.red');
+        }
+    }
+    &.button-indigo {
+        @apply .bg-indigo .text-white .border-indigo-light;
+
+        &:hover {
+            @apply .bg-indigo-dark;
+        }
+        &:focus, &:active {
+            box-shadow: 0 0 8px config('colors.indigo');
+        }
+    }
+    &.button-purple {
+        @apply .bg-purple .text-white .border-purple-light;
+
+        &:hover {
+            @apply .bg-purple-dark;
+        }
+        &:focus, &:active {
+            box-shadow: 0 0 8px config('colors.purple');
+        }
+    }
+    &.button-green {
+        @apply .bg-green .text-white .border-green-light;
+
+        &:hover {
+            @apply .bg-green-dark;
+        }
+        &:focus, &:active {
+            box-shadow: 0 0 8px config('colors.green');
+        }
+    }
+    &[disabled] {
+        @apply .opacity-50 .cursor-not-allowed;
+    }
+    &.is-loading {
+        @apply .opacity-50 .text-transparent .pointer-events-none .relative;
+        &:after {
+            @apply .border-solid .border-2 .block .h-4 .w-4 .absolute;
+            border-color: transparent transparent white white !important;
+            animation: spinAround 500ms infinite linear;
+            border-radius: 290486px;
+            content: "";
+            left: calc(50% - (1rem / 2));
+            top: calc(50% - (1rem / 2));
+        }
+    }
+}
+
+a {
+    @apply no-underline;
+}
+
+// Fade out
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.5;
+        transform: translate3d(100%, 0, 0);
+    }
+}
+.fadeOut {
+    animation-name: fadeOut;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+.fadeInDown {
+    animation-name: fadeInDown;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+$speed-slow: 150ms !default;
+$speed-slower: 250ms !default;
+
+// Fade
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity $speed-slow;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.notices {
+    @apply .z-50 .fixed .pin-r;
+    &.is-top {
+        @apply .pin-t;
+    }
+    &.is-bottom {
+        @apply .pin-b;
+    }
+    .toast {
+        @apply .border-l-4 .text-white .p-4 .m-2;
+        animation-duration: 150ms;
+        &.is-success {
+            @apply .border-green-dark;
+            background: #68CD86;
+        }
+        &.is-danger {
+            @apply .bg-red-light .border-red-dark;
+        }
+    }
+}
+
+/**
+ * This injects all of Tailwind's utility classes, generated based on your
+ * config file.
+ *
+ * If using `postcss-import`, use this import instead:
+ *
+ * @import "tailwindcss/utilities";
+ */
+@tailwind utilities;
+
+/**
+ * Here you would add any custom utilities you need that don't come out of the
+ * box with Tailwind.
+ *
+ * Example :
+ *
+ * .bg-pattern-graph-paper { ... }
+ * .skew-45 { ... }
+ *
+ * Or if using a preprocessor or `postcss-import`:
+ *
+ * @import "utilities/background-patterns";
+ * @import "utilities/skew-transforms";
+ */
+
+ .nuxt-link-active {
+    @apply text-grey-light;
+}
