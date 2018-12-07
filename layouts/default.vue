@@ -1,6 +1,19 @@
 <template>
     <div>
         <Header/>
+        <div
+            class="logging-out absolute h-full w-full pin z-20"
+            v-if="$store.state.auth.loggingOut"
+        >
+            <div class="shadow max-w-sm mx-auto text-center p-6 mt-16 bg-white relative">
+                <h1 class="saving">
+                    Logging out
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                </h1>
+            </div>
+        </div>
         <div class="mt-16">
             <nuxt/>
         </div>
@@ -19,22 +32,30 @@ export default {
 
 
 <style>
-html {
-    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-        'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 16px;
-    word-spacing: 1px;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
+.logging-out {
+    background: rgba(255, 255, 255, 0.8);
 }
-
-*,
-*:before,
-*:after {
-    box-sizing: border-box;
-    margin: 0;
+@keyframes blink {
+    0% {
+        opacity: 0.2;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+.logging-out span {
+    animation-name: blink;
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+.logging-out span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.logging-out span:nth-child(3) {
+    animation-delay: 0.4s;
 }
 </style>

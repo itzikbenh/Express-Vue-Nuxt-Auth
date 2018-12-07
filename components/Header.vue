@@ -8,7 +8,7 @@
                     </nuxt-link>
                 </div>
                 <div class="w-1/2 text-sm clearfix flex justify-end mr-4">
-                    <template v-if="loggedIn">
+                    <template v-if="loggedIn || loggingOut">
                         <nuxt-link
                             class="text-white hover:text-grey-light uppercase px-6 font-bold"
                             to="/profile"
@@ -16,7 +16,7 @@
                         <a
                             class="justify-center text-white hover:text-grey-light uppercase font-bold"
                             href="/logout"
-                            @click.prevent="logOut()"
+                            @click.prevent="logOut"
                         >
                             <span>Log out</span>
                         </a>
@@ -47,7 +47,7 @@ export default {
         ...mapActions('auth', ['logOut'])
     },
     computed: {
-        ...mapGetters('auth', ['loggedIn'])
+        ...mapGetters('auth', ['loggedIn', 'loggingOut'])
     }
 };
 </script>

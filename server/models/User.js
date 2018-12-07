@@ -2,7 +2,12 @@ const { Model } = require('objection');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const { oneDayFromNow, twoWeeksFromNow, getUTCTime, getDateTimeForDB } = require('../helpers/date');
+const {
+    oneDayFromNow,
+    twoWeeksFromNow,
+    getUTCTime,
+    getDateTimeForDB
+} = require('../helpers/date');
 
 class User extends Model {
     static get tableName() {
@@ -41,12 +46,16 @@ class User extends Model {
                 password: { type: 'string' },
                 login_tokens: {
                     type: 'array',
-                    properties: { ip: { type: 'string' }, token: { type: 'string' }, ua: { type: 'string' } },
+                    properties: {
+                        ip: { type: 'string' },
+                        token: { type: 'string' },
+                        ua: { type: 'string' }
+                    }
                 },
                 reset_token: { type: ['string', 'null'] },
                 created_at: { type: 'string' },
-                updated_at: { type: 'string' },
-            },
+                updated_at: { type: 'string' }
+            }
         };
     }
 
@@ -65,7 +74,10 @@ class User extends Model {
     }
 
     generateToken(expiration) {
-        return jwt.sign({ id: this.id, iat: getUTCTime(), expiresAt: expiration }, process.env.JWT_SECRET);
+        return jwt.sign(
+            { id: this.id, iat: getUTCTime(), expiresAt: expiration },
+            process.env.JWT_SECRET
+        );
     }
 
     async authenticate(text) {
@@ -75,11 +87,13 @@ class User extends Model {
     async deleteLoginToken(req, res, deleteAll = false) {
         if (deleteAll) {
             await this.$query().patch({
-                login_tokens: [],
+                login_tokens: []
             });
         } else {
             await this.$query().patch({
-                login_tokens: this.login_tokens.filter(lt => lt.token !== req.login_token),
+                login_tokens: this.login_tokens.filter(
+                    lt => lt.token !== req.login_token
+                )
             });
         }
     }
@@ -98,7 +112,9 @@ class User extends Model {
     }
 
     async login(req, res, remember = false) {
-        const token = this.generateToken(remember ? twoWeeksFromNow() : oneDayFromNow());
+        const token = this.generateToken(
+            remember ? twoWeeksFromNow() : oneDayFromNow()
+        );
 
         if (!this.login_tokens || !this.login_tokens.length) {
             this.login_tokens = [];
@@ -107,16 +123,20 @@ class User extends Model {
         this.login_tokens.push({
             ip: req.ip,
             token: token,
-            ua: req.headers['user-agent'],
+            ua: req.headers['user-agent']
         });
         try {
             await this.$query().patch({
-                login_tokens: this.login_tokens,
+                login_tokens: this.login_tokens
             });
-            const oneYearFromNow = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365 * 1);
-            res.cookie('user_login', token, { httpOnly: true, expires: oneYearFromNow });
+            const oneYearFromNow = new Date(
+                new Date().getTime() + 1000 * 60 * 60 * 24 * 365 * 1
+            );
+            res.cookie('user_login', token, {
+                httpOnly: true,
+                expires: oneYearFromNow
+            });
         } catch (error) {
-            console.log('error ', error);
             throw { name: 'login_error', message: error };
         }
     }
