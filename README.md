@@ -3,8 +3,6 @@
 
 This is a basic demo of a user authenticaion system written in Node.js Express and consumed by Vue.js using [Nuxt](https://nuxtjs.org/).
 
-This is basically a Nuxt version of this [repo](https://github.com/itzikbenh/Express-Vue-Auth) with some changes to the backend. I improved the code by adding controllers to make code "cleaner". At least for me :)
-
 For detailed explanation on how Nuxt works, checkout [Nuxt.js docs](https://nuxtjs.org).
 
 ## Installation & Build Setup
