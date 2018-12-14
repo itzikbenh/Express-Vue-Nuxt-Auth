@@ -39,7 +39,9 @@ export const actions = {
     async logOutAll({ commit }) {
         commit('loggingOut', true);
         try {
-            await this.$axios.post('http://localhost:3000/logout/all');
+            await this.$axios.post('http://localhost:3000/logout', {
+                logOutAll: true
+            });
             //So your users can enjoy the nice animation
             setTimeout(() => {
                 this.$router.replace({ path: 'login' });
